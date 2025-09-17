@@ -2683,22 +2683,26 @@ class PlayState extends MusicBeatState
 			daRating = 'shit';
 			score = 50;
 			health -= 0.1;
+			shits++;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.75)
 		{
 			daRating = 'bad';
 			score = 100;
+			bads++;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.2)
 		{
 			daRating = 'good';
 			score = 200;
 			health += 0.04;
+            goods++;
 		}
 
 		if(daRating == 'sick' && ClientPrefs.noteSplashes && note != null)
 		{
 			health += 0.1;
+			sicks++;
 			var strum:StrumNote = playerStrums.members[note.noteData];
 			if(strum != null) {
 				var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
