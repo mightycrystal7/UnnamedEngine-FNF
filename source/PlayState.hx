@@ -1033,12 +1033,13 @@ class PlayState extends MusicBeatState
 		CoolUtil.precacheSound('missnote1');
 		CoolUtil.precacheSound('missnote2');
 		CoolUtil.precacheSound('missnote3');
-		if (curSong.toLowerCase() == 'triple-trouble')
-		{
-			FlxG.camera.follow(camFollow, LOCKON, 0.12 * (30 / (cast(Lib.current.getChildAt(0), Main)).getFPS()));
-		}
 		super.create();
 	}
+
+		public static var shits:Int = 0;
+	public static var bads:Int = 0;
+	public static var goods:Int = 0;
+	public static var sicks:Int = 0;
 
 	//You don't have to add a song, just saying. You can just do "dialogueIntro(dialogue);" and it should work
 	function dialogueIntro(dialogue:Array<String>, ?song:String = null):Void
@@ -1850,7 +1851,7 @@ class PlayState extends MusicBeatState
 		if(ratingString == '?') {
 			scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Rating: ' + ratingString;
 		} else {
-			scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Rating: ' + Math.floor(ratingPercent * 100) + '% /' + ratingString + ' [' + ratingFC + ']';
+			scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Rating: ' + Math.floor(ratingPercent * 100) + '% / ' + ratingString + ' [' + ratingFC + ']';
 		}
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
@@ -1878,19 +1879,19 @@ class PlayState extends MusicBeatState
 			#end
 		}
 
-			if(sicks == 0 && goods == 0 && bads == 0 && shits == 0 && misses == 0)
+			if(sicks == 0 && goods == 0 && bads == 0 && shits == 0 && songMisses == 0)
 			ratingFC = "none";
-		else if(goods == 0 && bads == 0 && shits == 0 && misses == 0)
+		else if(goods == 0 && bads == 0 && shits == 0 && songMisses == 0)
 			ratingFC = "SFC";
-	    else if(goods >= 1 && goods <= 10 && bads == 0 && shits == 0 && misses == 0)
+	    else if(goods >= 1 && goods <= 10 && bads == 0 && shits == 0 && songMisses == 0)
 			ratingFC = "SDG";
-		else if(goods >= 10 && bads == 0 && shits == 0 && misses == 0)
+		else if(goods >= 10 && bads == 0 && shits == 0 && songMisses == 0)
 			ratingFC = "GFC";
-		else if(misses == 0)
+		else if(songMisses == 0)
 			ratingFC = "FC";
-		else if(misses >= 1)
+		else if(songMisses >= 1)
 			ratingFC = "SDCB";
-		else if(misses >= 10)
+		else if(songMisses >= 10)
 			ratingFC = "Clear";
 
 		if (FlxG.keys.justPressed.SEVEN && !endingSong)
@@ -2681,6 +2682,7 @@ class PlayState extends MusicBeatState
 		{
 			daRating = 'shit';
 			score = 50;
+			health -= 0.1;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.75)
 		{
@@ -2691,10 +2693,12 @@ class PlayState extends MusicBeatState
 		{
 			daRating = 'good';
 			score = 200;
+			health += 0.04;
 		}
 
 		if(daRating == 'sick' && ClientPrefs.noteSplashes && note != null)
 		{
+			health += 0.1;
 			var strum:StrumNote = playerStrums.members[note.noteData];
 			if(strum != null) {
 				var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
@@ -2949,7 +2953,7 @@ class PlayState extends MusicBeatState
 	{
 		if (!boyfriend.stunned)
 		{
-			health -= 0.04;
+			health -= 0.1;
 			if (combo > 5 && gf.animOffsets.exists('sad'))
 			{
 				gf.playAnim('sad');
@@ -3001,11 +3005,6 @@ class PlayState extends MusicBeatState
 				popUpScore(note);
 				combo += 1;
 			}
-
-			if (note.noteData >= 0)
-				health += 0.023;
-			else
-				health += 0.004;
 
 			if(note.noteType == 2) {
 				boyfriend.playAnim('hey', true);
