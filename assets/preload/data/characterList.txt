@@ -1,4 +1,12 @@
 bf
+bf-flipped-for-cam
+bf-perspective
+bf-perspective-flipped
+beast
+beast-cam-fix
+knucks
+tails
+eggdickface
 dad
 gf
 spooky

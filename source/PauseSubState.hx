@@ -22,6 +22,7 @@ class PauseSubState extends MusicBeatSubstate
 		'Restart Song',
 		'Change Difficulty',
 		'Toggle Practice Mode',
+		'Toggle Botplay',
 		'Exit to menu'
 	];
 	var difficultyChoices:Array<String> = ['EASY', 'NORMAL', 'HARD', 'BACK'];
@@ -158,6 +159,8 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Toggle Practice Mode':
 					PlayState.practiceMode = !PlayState.practiceMode;
 					practiceText.visible = PlayState.practiceMode;
+				case 'Toggle Botplay':
+					PlayState.cpuControlled = !PlayState.cpuControlled;
 
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;

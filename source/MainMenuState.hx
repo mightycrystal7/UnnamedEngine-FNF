@@ -1,6 +1,5 @@
 package;
 
-import NGio;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -26,10 +25,6 @@ using StringTools;
 
 #if discord_rpc
 import Discord.DiscordClient;
-#end
-#if newgrounds
-import io.newgrounds.NG;
-import ui.NgPrompt;
 #end
 
 class MainMenuState extends MusicBeatState
@@ -93,15 +88,8 @@ class MainMenuState extends MusicBeatState
 		menuItems.enabled = false; // disable for intro
 		menuItems.createItem('story mode', function() startExitState(new StoryMenuState()));
 		menuItems.createItem('freeplay', function() startExitState(new FreeplayState()));
+		menuItems.createItem('donate', null);
 		// addMenuItem('options', function () startExitState(new OptionMenu()));
-		#if CAN_OPEN_LINKS
-		var hasPopupBlocker = #if web true #else false #end;
-
-		if (VideoState.seenVideo)
-			menuItems.createItem('kickstarter', selectDonate, hasPopupBlocker);
-		else
-			menuItems.createItem('donate', selectDonate, hasPopupBlocker);
-		#end
 		menuItems.createItem('options', function() startExitState(new OptionsState()));
 		// #if newgrounds
 		// 	if (NGio.isLoggedIn)
@@ -167,52 +155,6 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.openURL('https://www.kickstarter.com/projects/funkin/friday-night-funkin-the-full-ass-game/');
 		#end
-	}
-	#end
-
-	#if newgrounds
-	function selectLogin()
-	{
-		openNgPrompt(NgPrompt.showLogin());
-	}
-
-	function selectLogout()
-	{
-		openNgPrompt(NgPrompt.showLogout());
-	}
-
-	function showSavedSessionFailed()
-	{
-		openNgPrompt(NgPrompt.showSavedSessionFailed());
-	}
-
-	/**
-	 * Calls openPrompt and redraws the login/logout button
-	 * @param prompt 
-	 * @param onClose 
-	 */
-	public function openNgPrompt(prompt:Prompt, ?onClose:Void->Void)
-	{
-		var onPromptClose = checkLoginStatus;
-		if (onClose != null)
-		{
-			onPromptClose = function()
-			{
-				checkLoginStatus();
-				onClose();
-			}
-		}
-
-		openPrompt(prompt, onPromptClose);
-	}
-
-	function checkLoginStatus()
-	{
-		var prevLoggedIn = menuItems.has("logout");
-		if (prevLoggedIn && !NGio.isLoggedIn)
-			menuItems.resetItem("login", "logout", selectLogout);
-		else if (!prevLoggedIn && NGio.isLoggedIn)
-			menuItems.resetItem("logout", "login", selectLogin);
 	}
 	#end
 

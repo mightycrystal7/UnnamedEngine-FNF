@@ -285,6 +285,206 @@ class Character extends FlxSprite
 
 				loadOffsetFile(curCharacter);
 
+					case 'bf-flipped-for-cam':
+				var tex = Paths.getSparrowAtlas('characters/BOYFRIEND', 'shared');
+				frames = tex;
+
+				trace(tex.frames.length);
+
+				animation.addByPrefix('idle', 'BF idle dance', 24, false);
+				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
+				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
+				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
+				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
+				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
+				animation.addByPrefix('hey', 'BF HEY', 24, false);
+
+				animation.addByPrefix('firstDeath', "BF dies", 24, false);
+				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, true);
+				animation.addByPrefix('deathConfirm', "BF Dead confirm", 24, false);
+
+				animation.addByPrefix('dodge', "boyfriend dodge", 24, false);
+
+				animation.addByPrefix('scared', 'BF idle shaking', 24);
+
+				addOffset('idle', -5);
+				addOffset("singUP", -29, 27);
+				addOffset("singRIGHT", -38, -7);
+				addOffset("singLEFT", 12, -6);
+				addOffset("singDOWN", -10, -50);
+				addOffset("singUPmiss", -29, 27);
+				addOffset("singRIGHTmiss", -30, 21);
+				addOffset("singLEFTmiss", 12, 24);
+				addOffset("singDOWNmiss", -11, -19);
+				addOffset("hey", 7, 4);
+				addOffset('firstDeath', 37, 11);
+				addOffset('deathLoop', 37, 5);
+				addOffset('deathConfirm', 37, 69);
+				addOffset('scared', -4);
+				addOffset('dodge');
+
+				playAnim('idle');
+
+				flipX = true;
+
+					case 'bf-perspective':
+				var tex = Paths.getSparrowAtlas('characters/BFPhase3_Perspective', 'shared');
+				frames = tex;
+
+				trace(tex.frames.length);
+
+				animation.addByPrefix('idle', 'Idle', 24, false);
+				animation.addByPrefix('singUP', 'Sing_Up', 24, false);
+				animation.addByPrefix('singRIGHT', 'Sing_Left', 24, false);
+				animation.addByPrefix('singLEFT', 'Sing_Right', 24, false);
+				animation.addByPrefix('singDOWN', 'Sing_Down', 24, false);
+				animation.addByPrefix('singUPmiss', 'Up_Miss', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'Left_Miss', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'Miss_Right', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'Down_Miss', 24, false);
+
+				addOffset('idle', 5, 4);
+				addOffset("singUP", 23, 63);
+				addOffset("singLEFT", 31, 9);
+				addOffset("singRIGHT", -75, -15);
+				addOffset("singDOWN", -51, -1);
+				addOffset("singUPmiss", 20, 135);
+				addOffset("singLEFTmiss", 10, 92);
+				addOffset("singRIGHTmiss", -70, 85);
+				addOffset("singDOWNmiss", -53, 10);
+
+				playAnim('idle');
+
+				flipX = true;
+
+				case 'bf-perspective-flipped':
+				var tex = Paths.getSparrowAtlas('characters/BFPhase3_Perspective_Flipped', 'shared');
+				frames = tex;
+
+				trace(tex.frames.length);
+
+				animation.addByPrefix('idle', 'Idle_Flip', 24, false);
+				animation.addByPrefix('singUP', 'Sing_Up_Flip', 24, false);
+				animation.addByPrefix('singLEFT', 'Sing_Left_Flip', 24, false);
+				animation.addByPrefix('singRIGHT', 'Sing_Right_Flip', 24, false);
+				animation.addByPrefix('singDOWN', 'Sing_Down_Flip', 24, false);
+				animation.addByPrefix('singUPmiss', 'Up_Miss_Flip', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'Left_Miss_Flip', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'Right_Miss_Flip', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'Down_Miss_Flip', 24, false);
+
+				addOffset('idle', 46, -12);
+				addOffset("singUP", -22, 41);
+				addOffset("singRIGHT", 29, 9);
+				addOffset("singLEFT", 96, -12);
+				addOffset("singDOWN", 74, -14);
+				addOffset("singUPmiss", -22, 133);
+				addOffset("singRIGHTmiss", 106, 75);
+				addOffset("singLEFTmiss", 106, 75);
+				addOffset("singDOWNmiss", 105, 1);
+
+				playAnim('idle');
+
+				flipX = true;
+
+				case 'beast':
+				frames = Paths.getSparrowAtlas('characters/Beast');
+				animation.addByPrefix('idle', 'Beast_IDLE', 24, false);
+				animation.addByPrefix('singUP', 'Beast_UP', 24, false);
+				animation.addByPrefix('singDOWN', 'Beast_DOWN', 24, false);
+				animation.addByPrefix('singLEFT', 'Beast_LEFT', 24, false);
+				animation.addByPrefix('singRIGHT', 'Beast_RIGHT', 24, false);
+				animation.addByPrefix('laugh', 'Beast_LAUGH', 24, false);
+
+				addOffset('idle', -18, 70);
+				addOffset("singUP", 22, 143);
+				addOffset("singRIGHT", -260, 11);
+				addOffset("singLEFT", 177, -24);
+				addOffset("singDOWN", -15, -57);
+				addOffset("laugh", -78, -128);
+
+				antialiasing = true;
+
+				playAnim('idle');
+
+					case 'beast-cam-fix':
+				frames = Paths.getSparrowAtlas('characters/Beast');
+				animation.addByPrefix('idle', 'Beast_IDLE', 24, false);
+				animation.addByPrefix('singUP', 'Beast_UP', 24, false);
+				animation.addByPrefix('singDOWN', 'Beast_DOWN', 24, false);
+				animation.addByPrefix('singLEFT', 'Beast_LEFT', 24, false);
+				animation.addByPrefix('singRIGHT', 'Beast_RIGHT', 24, false);
+				animation.addByPrefix('laugh', 'Beast_LAUGH', 24, false);
+
+				addOffset('idle', -18, 70);
+				addOffset("singUP", 22, 143);
+				addOffset("singRIGHT", -260, 11);
+				addOffset("singLEFT", 177, -24);
+				addOffset("singDOWN", -15, -57);
+				addOffset("laugh", -78, -128);
+
+				antialiasing = true;
+
+				playAnim('idle');
+
+					case 'knucks':
+				tex = Paths.getSparrowAtlas('characters/KnucklesEXE');
+				frames = tex;
+				animation.addByPrefix('idle', 'Knux Idle', 24);
+				animation.addByPrefix('singUP', 'Knux Up', 24);
+				animation.addByPrefix('singRIGHT', 'Knux Left', 24);
+				animation.addByPrefix('singDOWN', 'Knux Down', 24);
+				animation.addByPrefix('singLEFT', 'Knux Right', 24);
+
+				addOffset('idle', 0, 0);
+				addOffset("singUP", 29, 49);
+				addOffset("singRIGHT", 124, -59);
+				addOffset("singLEFT", -59, -65);
+				addOffset("singDOWN", 26, -95);
+
+				flipX = true;
+
+			case 'tails':
+				tex = Paths.getSparrowAtlas('characters/Tails');
+				frames = tex;
+				quickAnimAdd('idle', 'Tails IDLE');
+				quickAnimAdd('singUP', 'Tails UP');
+				quickAnimAdd('singRIGHT', 'Tails RIGHT');
+				quickAnimAdd('singDOWN', 'Tails DOWN');
+				quickAnimAdd('singLEFT', 'Tails LEFT');
+
+				x -= 200;
+
+				loadOffsetFile(curCharacter);
+
+				setGraphicSize(Std.int(width * 1.2));
+
+				playAnim('idle');
+
+				updateHitbox();
+
+			case 'eggdickface':
+				tex = Paths.getSparrowAtlas('characters/eggman_soul');
+				frames = tex;
+				animation.addByPrefix('idle', 'Eggman_Idle', 24);
+				animation.addByPrefix('singUP', 'Eggman_Up', 24);
+				animation.addByPrefix('singRIGHT', 'Eggman_Right', 24);
+				animation.addByPrefix('singDOWN', 'Eggman_Down', 24);
+				animation.addByPrefix('singLEFT', 'Eggman_Left', 24);
+				animation.addByPrefix('laugh', 'Eggman_Laugh', 35, false);
+
+				addOffset('idle', -5, 5);
+				addOffset("singUP", 110, 231);
+				addOffset("singRIGHT", 40, 174);
+				addOffset("singLEFT", 237, 97);
+				addOffset("singDOWN", 49, -95);
+				addOffset('laugh', -10, 210);
+
+				updateHitbox();
+
 			case 'bf-christmas':
 				var tex = Paths.getSparrowAtlas('characters/bfChristmas');
 				frames = tex;

@@ -27,6 +27,7 @@ class Song
 	public var bpm:Float;
 	public var needsVoices:Bool = true;
 	public var speed:Float = 1;
+		var songName:String;
 
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';

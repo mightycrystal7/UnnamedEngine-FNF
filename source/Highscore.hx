@@ -15,9 +15,6 @@ class Highscore
 	{
 		var formattedSong:String = formatSong(song, diff);
 
-		#if newgrounds
-		NGio.postScore(score, song);
-		#end
 
 		if (songScores.exists(formattedSong))
 		{
@@ -30,9 +27,6 @@ class Highscore
 
 	public static function saveWeekScore(week:Int = 1, score:Int = 0, ?diff:Int = 0):Void
 	{
-		#if newgrounds
-		NGio.postScore(score, "Week " + week);
-		#end
 
 		var formattedSong:String = formatSong('week' + week, diff);
 

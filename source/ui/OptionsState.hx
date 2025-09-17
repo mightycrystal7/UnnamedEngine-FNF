@@ -33,20 +33,12 @@ class OptionsState extends MusicBeatState
 		var controls = addPage(Controls, new ControlsMenu());
 		// var colors = addPage(Colors, new ColorsMenu());
 
-		#if cpp
-		var mods = addPage(Mods, new ModMenu());
-		#end
-
 		if (options.hasMultipleOptions())
 		{
 			options.onExit.add(exitToMainMenu);
 			controls.onExit.add(switchPage.bind(Options));
 			// colors.onExit.add(switchPage.bind(Options));
 			preferences.onExit.add(switchPage.bind(Options));
-
-			#if cpp
-			mods.onExit.add(switchPage.bind(Options));
-			#end
 		}
 		else
 		{
@@ -183,20 +175,6 @@ class OptionsMenu extends Page
 		#if cpp
 		createItem('mods', function() switchPage(Mods));
 		#end
-
-		#if CAN_OPEN_LINKS
-		if (showDonate)
-		{
-			var hasPopupBlocker = #if web true #else false #end;
-			createItem('donate', selectDonate, hasPopupBlocker);
-		}
-		#end
-		#if newgrounds
-		if (NGio.isLoggedIn)
-			createItem("logout", selectLogout);
-		else
-			createItem("login", selectLogin);
-		#end
 		createItem("exit", exit);
 	}
 
@@ -222,59 +200,6 @@ class OptionsMenu extends Page
 	{
 		return items.length > 2;
 	}
-
-	#if CAN_OPEN_LINKS
-	function selectDonate()
-	{
-		#if linux
-		Sys.command('/usr/bin/xdg-open', ["https://ninja-muffin24.itch.io/funkin", "&"]);
-		#else
-		FlxG.openURL('https://ninja-muffin24.itch.io/funkin');
-		#end
-	}
-	#end
-
-	#if newgrounds
-	function selectLogin()
-	{
-		openNgPrompt(NgPrompt.showLogin());
-	}
-
-	function selectLogout()
-	{
-		openNgPrompt(NgPrompt.showLogout());
-	}
-
-	/**
-	 * Calls openPrompt and redraws the login/logout button
-	 * @param prompt 
-	 * @param onClose 
-	 */
-	public function openNgPrompt(prompt:Prompt, ?onClose:Void->Void)
-	{
-		var onPromptClose = checkLoginStatus;
-		if (onClose != null)
-		{
-			onPromptClose = function()
-			{
-				checkLoginStatus();
-				onClose();
-			}
-		}
-
-		openPrompt(prompt, onPromptClose);
-	}
-
-	function checkLoginStatus()
-	{
-		// this shit don't work!! wtf!!!!
-		var prevLoggedIn = items.has("logout");
-		if (prevLoggedIn && !NGio.isLoggedIn)
-			items.resetItem("logout", "login", selectLogin);
-		else if (!prevLoggedIn && NGio.isLoggedIn)
-			items.resetItem("login", "logout", selectLogout);
-	}
-	#end
 }
 
 enum PageName
