@@ -671,6 +671,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Downscroll',
 		noCheckbox[1],
 		'Note Splashes',
+		'Ghost Tapping',
 		'Hide HUD',
 		'Flashing Lights',
 		'Camera Zooms'
@@ -829,6 +830,9 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 					case 'Note Splashes':
 						ClientPrefs.noteSplashes = !ClientPrefs.noteSplashes;
+
+						case 'Ghost Tapping':
+							ClientPrefs.ghostTapping = !ClientPrefs.ghostTapping;
 
 					case 'Flashing Lights':
 						ClientPrefs.flashing = !ClientPrefs.flashing;

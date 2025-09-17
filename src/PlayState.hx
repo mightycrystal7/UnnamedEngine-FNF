@@ -334,6 +334,34 @@ class PlayState extends MusicBeatState
 						bg.scale.y = 1.2;
 						add(bg);
 					}
+					case 'madness' | 'improbableoutset':
+					{
+			//trace("line 538");
+			defaultCamZoom = 0.75;
+			curStage = 'nevada';
+
+			var bg:FlxSprite = new FlxSprite(-350, -300).loadGraphic(Paths.image('red'));
+			// bg.setGraphicSize(Std.int(bg.width * 2.5));
+			// bg.updateHitbox();
+			bg.antialiasing = true;
+			bg.scrollFactor.set(0.9, 0.9);
+
+			var stageFront:FlxSprite;
+				stageFront = new FlxSprite(-1100, -460).loadGraphic(Paths.image('island_but_rocks_float'));
+			stageFront.setGraphicSize(Std.int(stageFront.width * 1.4));
+			stageFront.antialiasing = true;
+			stageFront.scrollFactor.set(0.9, 0.9);
+			stageFront.active = false;
+			add(stageFront);
+			
+			var MAINLIGHT:FlxSprite = new FlxSprite(-470, -150).loadGraphic(Paths.image('hue'));
+			MAINLIGHT.alpha - 0.3;
+			MAINLIGHT.setGraphicSize(Std.int(MAINLIGHT.width * 0.9));
+			MAINLIGHT.blend = "screen";
+			MAINLIGHT.updateHitbox();
+			MAINLIGHT.antialiasing = true;
+			MAINLIGHT.scrollFactor.set(1.2, 1.2);
+		}
 			case 'pico' | 'blammed' | 'philly-nice':
 				curStage = 'philly';
 
@@ -2148,7 +2176,6 @@ class PlayState extends MusicBeatState
 					if(daNote.isSustainNote && !daNote.animation.curAnim.name.endsWith('end')) {
 						time += 0.15;
 					}
-					DadStrumPlayAnim(daNote.noteData % 4, time);
 					daNote.ignoreNote = true;
 
 					if (!daNote.isSustainNote)
@@ -2946,7 +2973,8 @@ class PlayState extends MusicBeatState
 		});
 	}
 
-	function badNoteHit():Void {
+	 function badNoteHit():Void {
+		if(ClientPrefs.ghostTapping) return;
 		var controlArray:Array<Bool> = [controls.NOTE_LEFT_P, controls.NOTE_DOWN_P, controls.NOTE_UP_P, controls.NOTE_RIGHT_P];
 		for (i in 0...controlArray.length) {
 			if(controlArray[i]) noteMiss(i);
@@ -3474,14 +3502,6 @@ class PlayState extends MusicBeatState
 		if (curStage == 'spooky' && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
 		{
 			lightningStrikeShit();
-		}
-	}
-
-	function DadStrumPlayAnim(id:Int, time:Float) {
-		var spr:StrumNote = strumLineNotes.members[id];
-		if(spr != null) {
-			spr.playAnim('confirm', true);
-			spr.resetAnim = time;
 		}
 	}
 

@@ -116,6 +116,39 @@ class Character extends FlxSprite
 				animation.addByIndices('danceRight', 'spooky dance idle', [8, 10, 12, 14], "", 12, false);
 
 				playAnim('danceRight');
+
+						case 'tricky':
+				frames = Paths.getSparrowAtlas('characters/tricky');
+				animation.addByPrefix('idle', 'Idle', 24);
+				animation.addByPrefix('singUP', 'Sing Up', 24);
+				animation.addByPrefix('singRIGHT', 'Sing Right', 24);
+				animation.addByPrefix('singDOWN', 'Sing Down', 24);
+				animation.addByPrefix('singLEFT', 'Sing Left', 24); 
+				
+				addOffset("idle", 0, -75);
+				addOffset("singUP", 93, -76);
+				addOffset("singRIGHT", 16, -176);
+				addOffset("singLEFT", 103, -72);
+				addOffset("singDOWN", 6, -84);
+
+				playAnim('idle');
+
+					case 'trickymask':
+				frames = Paths.getSparrowAtlas('characters/trickyMask');
+				animation.addByPrefix('idle', 'Idle', 24);
+				animation.addByPrefix('singUP', 'Sing Up', 24);
+				animation.addByPrefix('singRIGHT', 'Sing Right', 24);
+				animation.addByPrefix('singDOWN', 'Sing Down', 24);
+				animation.addByPrefix('singLEFT', 'Sing Left', 24); 
+				
+				addOffset("idle", 0, -75);
+				addOffset("singUP", 93, -76);
+				addOffset("singRIGHT", 16, -176);
+				addOffset("singLEFT", 103, -72);
+				addOffset("singDOWN", 6, -84);
+
+				playAnim('idle');
+
 			case 'mom':
 				frames = Paths.getSparrowAtlas('characters/Mom_Assets');
 
