@@ -1,25 +1,32 @@
 package;
 
 import flixel.FlxG;
-import flixel.graphics.FlxGraphic;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.math.FlxMath;
-import flixel.math.FlxPoint;
-import flixel.math.FlxRect;
-import flixel.system.FlxAssets.FlxGraphicAsset;
-import haxe.Json;
-import lime.math.Rectangle;
-import lime.utils.Assets;
+import openfl.utils.Assets;
+import lime.utils.Assets as LimeAssets;
+import lime.utils.AssetLibrary;
+import lime.utils.AssetManifest;
 
 using StringTools;
 
 class CoolUtil
 {
-	public static var difficultyArray:Array<String> = ['EASY', "NORMAL", "HARD"];
+	// [Difficulty name, Chart file suffix]
+	public static var difficultyStuff:Array<Dynamic> = [
+		['Easy', '-easy'],
+		['Normal', ''],
+		['Hard', '-hard']
+	];
 
 	public static function difficultyString():String
 	{
-		return difficultyArray[PlayState.storyDifficulty];
+		return difficultyStuff[PlayState.storyDifficulty][0].toUpperCase();
+	}
+
+	public static function boundTo(value:Float, min:Float, max:Float):Float {
+		var newValue:Float = value;
+		if(newValue < min) newValue = min;
+		else if(newValue > max) newValue = max;
+		return newValue;
 	}
 
 	public static function coolTextFile(path:String):Array<String>
@@ -44,23 +51,18 @@ class CoolUtil
 		return dumbArray;
 	}
 
-	/**
-		Lerps camera, but accountsfor framerate shit?
-		Right now it's simply for use to change the followLerp variable of a camera during update
-		TODO LATER MAYBE:
-			Actually make and modify the scroll and lerp shit in it's own function
-			instead of solely relying on changing the lerp on the fly
-	 */
-	public static function camLerpShit(lerp:Float):Float
-	{
-		return lerp * (FlxG.elapsed / (1 / 60));
+	//uhhhh does this even work at all? i'm starting to doubt
+	public static function precacheSound(sound:String, ?library:String = null):Void {
+		if(!Assets.cache.hasSound(Paths.sound(sound, library))) {
+			FlxG.sound.cache(Paths.sound(sound, library));
+		}
 	}
 
-	/*
-	* just lerp that does camLerpShit for u so u dont have to do it every time
-	*/
-	public static function coolLerp(a:Float, b:Float, ratio:Float):Float
-	{
-		return FlxMath.lerp(a, b, camLerpShit(ratio));
+	public static function browserLoad(site:String) {
+		#if linux
+		Sys.command('/usr/bin/xdg-open', [site, "&"]);
+		#else
+		FlxG.openURL(site);
+		#end
 	}
 }

@@ -17,6 +17,7 @@ typedef SwagSong =
 
 	var player1:String;
 	var player2:String;
+	var player3:String;
 	var validScore:Bool;
 }
 
@@ -27,10 +28,10 @@ class Song
 	public var bpm:Float;
 	public var needsVoices:Bool = true;
 	public var speed:Float = 1;
-		var songName:String;
 
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
+	public var player3:String = 'gf';
 
 	public function new(song, notes, bpm)
 	{
@@ -41,7 +42,16 @@ class Song
 
 	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
 	{
-		var rawJson = Assets.getText(Paths.json(folder.toLowerCase() + '/' + jsonInput.toLowerCase())).trim();
+		var rawJson;
+		if(jsonInput == 'events') { //Makes the game not crash while trying to load an events chart, doesn't work on HTML tho
+			#if sys
+			rawJson = sys.io.File.getContent(Paths.json(folder.toLowerCase() + '/events')).trim();
+			#else
+			rawJson = Assets.getText(Paths.json(folder.toLowerCase() + '/events')).trim();
+			#end
+		} else {
+			rawJson = Assets.getText(Paths.json(folder.toLowerCase() + '/' + jsonInput.toLowerCase())).trim();
+		}
 
 		while (!rawJson.endsWith("}"))
 		{
