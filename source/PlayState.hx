@@ -138,6 +138,8 @@ class PlayState extends MusicBeatState
 	var phillyCityLightsEventTween:FlxTween;
 	var trainSound:FlxSound;
 
+		var ratingFC:String = "";
+
 	var limoKillingState:Int = 0;
 	var limo:FlxSprite;
 	var limoMetalPole:FlxSprite;
@@ -294,6 +296,44 @@ class PlayState extends MusicBeatState
 				CoolUtil.precacheSound('thunder_1');
 				CoolUtil.precacheSound('thunder_2');
 
+				case 'triple-trouble': // i fixed the bgs and shit!!! - razencro part 1
+					{
+						defaultCamZoom = .9;
+						curStage = 'TrioStage';
+
+						var sSKY:FlxSprite = new FlxSprite(-621.1, -395.65).loadGraphic(Paths.image('Phase3/Glitch'));
+						sSKY.antialiasing = true;
+						sSKY.scrollFactor.set(0.9, 1);
+						sSKY.active = false;
+						sSKY.scale.x = 1.2;
+						sSKY.scale.y = 1.2;
+						add(sSKY);
+
+						var trees:FlxSprite = new FlxSprite(-607.35, -401.55).loadGraphic(Paths.image('Phase3/Trees'));
+						trees.antialiasing = true;
+						trees.scrollFactor.set(0.95, 1);
+						trees.active = false;
+						trees.scale.x = 1.2;
+						trees.scale.y = 1.2;
+						add(trees);
+
+						var bg2:FlxSprite = new FlxSprite(-623.5, -410.4).loadGraphic(Paths.image('Phase3/Trees2'));
+						bg2.updateHitbox();
+						bg2.antialiasing = true;
+						bg2.scrollFactor.set(1, 1);
+						bg2.active = false;
+						bg2.scale.x = 1.2;
+						bg2.scale.y = 1.2;
+						add(bg2);
+
+						var bg:FlxSprite = new FlxSprite(-630.4, -266).loadGraphic(Paths.image('Phase3/Grass'));
+						bg.antialiasing = true;
+						bg.scrollFactor.set(1.1, 1);
+						bg.active = false;
+						bg.scale.x = 1.2;
+						bg.scale.y = 1.2;
+						add(bg);
+					}
 			case 'pico' | 'blammed' | 'philly-nice':
 				curStage = 'philly';
 
@@ -993,6 +1033,10 @@ class PlayState extends MusicBeatState
 		CoolUtil.precacheSound('missnote1');
 		CoolUtil.precacheSound('missnote2');
 		CoolUtil.precacheSound('missnote3');
+		if (curSong.toLowerCase() == 'triple-trouble')
+		{
+			FlxG.camera.follow(camFollow, LOCKON, 0.12 * (30 / (cast(Lib.current.getChildAt(0), Main)).getFPS()));
+		}
 		super.create();
 	}
 
@@ -1804,9 +1848,9 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 
 		if(ratingString == '?') {
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString;
+			scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Rating: ' + ratingString;
 		} else {
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' (' + Math.floor(ratingPercent * 100) + '%)';
+			scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Rating: ' + Math.floor(ratingPercent * 100) + '% /' + ratingString + ' [' + ratingFC + ']';
 		}
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
@@ -1833,6 +1877,21 @@ class PlayState extends MusicBeatState
 			DiscordClient.changePresence(detailsPausedText, displaySongName + " (" + storyDifficultyText + ")", iconRPC);
 			#end
 		}
+
+			if(sicks == 0 && goods == 0 && bads == 0 && shits == 0 && misses == 0)
+			ratingFC = "none";
+		else if(goods == 0 && bads == 0 && shits == 0 && misses == 0)
+			ratingFC = "SFC";
+	    else if(goods >= 1 && goods <= 10 && bads == 0 && shits == 0 && misses == 0)
+			ratingFC = "SDG";
+		else if(goods >= 10 && bads == 0 && shits == 0 && misses == 0)
+			ratingFC = "GFC";
+		else if(misses == 0)
+			ratingFC = "FC";
+		else if(misses >= 1)
+			ratingFC = "SDCB";
+		else if(misses >= 10)
+			ratingFC = "Clear";
 
 		if (FlxG.keys.justPressed.SEVEN && !endingSong)
 		{
@@ -2927,33 +2986,10 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function badNoteCheck()
-	{
-		// just double pasting this shit cuz fuk u
-		// REDO THIS SYSTEM!
-		var upP = controls.NOTE_UP_P;
-		var rightP = controls.NOTE_RIGHT_P;
-		var downP = controls.NOTE_DOWN_P;
-		var leftP = controls.NOTE_LEFT_P;
-
-		if (leftP)
-			noteMiss(0);
-		if (downP)
-			noteMiss(1);
-		if (upP)
-			noteMiss(2);
-		if (rightP)
-			noteMiss(3);
-	}
-
 	function noteCheck(keyP:Bool, note:Note):Void
 	{
 		if (keyP)
 			goodNoteHit(note);
-		else
-		{
-			badNoteCheck();
-		}
 	}
 
 	function goodNoteHit(note:Note):Void
@@ -3169,6 +3205,163 @@ class PlayState extends MusicBeatState
 		if (dad.curCharacter == 'spooky' && curStep % 4 == 2)
 		{
 			// dad.dance();
+		}
+		if (curSong.toLowerCase() == 'triple-trouble')
+		{
+			switch (curStep)
+			{
+				case 1:
+					FlxTween.tween(FlxG.camera, {zoom: 1.1}, 2, {ease: FlxEase.cubeOut});
+					defaultCamZoom = 1.1;
+				case 1040: // switch to sonic facing right
+
+					FlxTween.tween(FlxG.camera, {zoom: 0.9}, 2, {ease: FlxEase.cubeOut});
+					defaultCamZoom = 0.9;
+
+					healthBar.createFilledBar(FlxColor.fromRGB(182, 0, 205), FlxColor.fromRGB(49, 176, 209));
+
+					remove(dad);
+					dad = new Character(20 - 200, -94.75 + 100, 'beast');
+					add(dad);
+
+					dad.addOffset('idle', -18, 70); // BEAST SONIC LOOKING RIGHT
+					dad.addOffset("singUP", 22, 143);
+					dad.addOffset("singRIGHT", -260, 11);
+					dad.addOffset("singLEFT", 177, -24);
+					dad.addOffset("singDOWN", -15, -57);
+					dad.addOffset("laugh", -78, -128);
+
+					remove(boyfriend);
+					boyfriend = new Boyfriend(502.45 + 200, 370.45, 'bf-perspective-flipped');
+					add(boyfriend);
+
+				case 1296: // switch to knuckles facing left facing right and bf facing right, and cool static
+
+					FlxTween.tween(FlxG.camera, {zoom: 1.1}, 2, {ease: FlxEase.cubeOut});
+					defaultCamZoom = 1.1;
+
+					remove(dad);
+					dad = new Character(1300 + 100 - 206, 260 + 44, 'knucks');
+					add(dad);
+					healthBar.createFilledBar(FlxColor.fromRGB(150, 0, 0), FlxColor.fromRGB(49, 176, 209));
+
+					dad.addOffset("singRIGHT", -59, -65);
+					dad.addOffset("singLEFT", 124, -59);
+					dad.addOffset("singUP", 29, 49);
+					dad.addOffset("singDOWN", 26, -95);
+
+					dad.flipX = true;
+
+					remove(boyfriend);
+					boyfriend = new Boyfriend(466.1, 685.6 - 300, 'bf-flipped-for-cam');
+					add(boyfriend);
+
+					boyfriend.flipX = true;
+
+					boyfriend.addOffset('idle', 0, -2); // flipped offsets for flipped normal bf
+					boyfriend.addOffset("singUP", 10, 27);
+					boyfriend.addOffset("singRIGHT", 44, -7);
+					boyfriend.addOffset("singLEFT", -22, -7);
+					boyfriend.addOffset("singDOWN", -13, -52);
+					boyfriend.addOffset("singUPmiss", 13, 24);
+					boyfriend.addOffset("singRIGHTmiss", 44, 20);
+					boyfriend.addOffset("singLEFTmiss", -26, 15);
+					boyfriend.addOffset("singDOWNmiss", -11, -20);
+
+				case 2320:
+					FlxTween.tween(FlxG.camera, {zoom: 0.9}, 2, {ease: FlxEase.cubeOut});
+					defaultCamZoom = 0.9;
+
+					remove(dad);
+					dad = new Character(1300 - 250, -94.75 + 100, 'beast-cam-fix');
+					add(dad);
+
+					dad.addOffset('idle', -13, 79); // cam fix BEAST SONIC LOOKING LEFT OFFSETS
+					dad.addOffset("singUP", 11, 156);
+					dad.addOffset("singRIGHT", 451, 24);
+					dad.addOffset("singLEFT", 174, -13);
+					dad.addOffset("singDOWN", 4, -15);
+					dad.addOffset("laugh", 103, -144);
+
+					// dad.camFollow.y = dad.getMidpoint().y - 100;
+					// dad.camFollow.x = dad.getMidpoint().x - 500;
+
+					healthBar.createFilledBar(FlxColor.fromRGB(182, 0, 205), FlxColor.fromRGB(49, 176, 209));
+
+					remove(boyfriend);
+					boyfriend = new Boyfriend(502.45 - 350, 370.45, 'bf-perspective');
+					add(boyfriend);
+
+					boyfriend.flipX = false;
+
+					boyfriend.addOffset('idle', 5, 4);
+					boyfriend.addOffset("singUP", 23, 63);
+					boyfriend.addOffset("singLEFT", 31, 9);
+					boyfriend.addOffset("singRIGHT", -75, -15);
+					boyfriend.addOffset("singDOWN", -51, -1);
+					boyfriend.addOffset("singUPmiss", 20, 135);
+					boyfriend.addOffset("singLEFTmiss", 10, 92);
+					boyfriend.addOffset("singRIGHTmiss", -70, 85);
+					boyfriend.addOffset("singDOWNmiss", -53, 10);
+
+					dad.flipX = true;
+				case 2823:
+
+					FlxTween.tween(FlxG.camera, {zoom: 1}, 2, {ease: FlxEase.cubeOut});
+					defaultCamZoom = 1;
+
+					remove(dad);
+					dad = new Character(20 - 200, 30 + 200, 'eggdickface');
+					add(dad);
+
+					// dad.camFollow.y = dad.getMidpoint().y;
+					// dad.camFollow.x = dad.getMidpoint().x + 300;
+
+					healthBar.createFilledBar(FlxColor.fromRGB(194, 80, 0), FlxColor.fromRGB(49, 176, 209));
+
+					dad.flipX = false;
+
+					dad.addOffset('idle', -5, 5);
+					dad.addOffset("singUP", 110, 231);
+					dad.addOffset("singRIGHT", 40, 174);
+					dad.addOffset("singLEFT", 237, 97);
+					dad.addOffset("singDOWN", 49, -95);
+					dad.addOffset('laugh', -10, 210);
+
+					remove(boyfriend);
+					boyfriend = new Boyfriend(466.1 + 200, 685.6 - 250, 'bf');
+					add(boyfriend);
+
+					boyfriend.addOffset('idle', -5);
+					boyfriend.addOffset("singUP", -29, 27);
+					boyfriend.addOffset("singRIGHT", -38, -7);
+					boyfriend.addOffset("singLEFT", 12, -6);
+					boyfriend.addOffset("singDOWN", -10, -50);
+					boyfriend.addOffset("singUPmiss", -29, 27);
+					boyfriend.addOffset("singRIGHTmiss", -30, 21);
+					boyfriend.addOffset("singLEFTmiss", 12, 24);
+					boyfriend.addOffset("singDOWNmiss", -11, -19);
+
+				case 2887, 3015, 4039:
+					dad.playAnim('laugh', true);
+				case 4111:
+					remove(dad);
+					dad = new Character(20 - 200, -94.75 + 100, 'beast');
+					add(dad);
+
+					dad.addOffset('idle', -18, 70); // BEAST SONIC LOOKING RIGHT
+					dad.addOffset("singUP", 22, 143);
+					dad.addOffset("singRIGHT", -260, 11);
+					dad.addOffset("singLEFT", 177, -24);
+					dad.addOffset("singDOWN", -15, -57);
+					dad.addOffset("laugh", -78, -128);
+
+					healthBar.createFilledBar(FlxColor.fromRGB(182, 0, 205), FlxColor.fromRGB(49, 176, 209));
+
+					remove(boyfriend);
+					boyfriend = new Boyfriend(502.45, 370.45, 'bf-perspective-flipped');
+					add(boyfriend);
+			}
 		}
 	}
 
