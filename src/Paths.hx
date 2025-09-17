@@ -47,12 +47,9 @@ class Paths
 	}
 
 	inline static function getLibraryPathForce(file:String, library:String)
-{
-    if (library == "shared")
-        return 'assets/shared/$file';
-    else
-        return '$library:assets/$library/$file';
-}
+	{
+		return '$library:assets/$library/$file';
+	}
 
 	inline static function getPreloadPath(file:String)
 	{

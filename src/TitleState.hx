@@ -5,7 +5,6 @@ import Discord.DiscordClient;
 import sys.thread.Thread;
 #end
 import flixel.FlxG;
-import sys.io.File;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.input.keyboard.FlxKey;
@@ -228,7 +227,7 @@ class TitleState extends MusicBeatState
 
 	function getIntroTextShit():Array<Array<String>>
 	{
-var fullText:String = File.getContent("assets/shared/data/introText.txt");
+		var fullText:String = Assets.getText(Paths.txt('introText'));
 
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];
